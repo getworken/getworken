@@ -1,0 +1,328 @@
+{
+  "common": {
+    "appName": "GetWorken",
+    "tagline": "Field service, simplified",
+    "welcome": "Welcome",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "actions": "Actions"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login",
+    "signup": "Sign Up"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "createAccount": "Create Account",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "invalidCredentials": "Invalid email or password",
+    "accountCreated": "Account created successfully",
+    "passwordResetSent": "Password reset email sent",
+    "displayName": "Display Name"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "overview": "Overview",
+    "profile": "Profile",
+    "directory": "Directory",
+    "team": "Team",
+    "chat": "Chat",
+    "welcomeMessage": "Welcome to your dashboard",
+    "clientDashboard": "Client Dashboard",
+    "accountSettings": "Account Settings"
+  },
+  "profile": {
+    "business": "Business",
+    "contractor": "Contractor",
+    "employee": "Employee",
+    "customer": "Customer",
+    "switchProfile": "Switch Profile",
+    "activeProfile": "Active Profile",
+    "profileSettings": "Profile Settings"
+  },
+  "roles": {
+    "super-admin": "Super Admin",
+    "admin": "Admin",
+    "moderator": "Moderator",
+    "support": "Support",
+    "client": "Client"
+  },
+  "errors": {
+    "generic": "An error occurred",
+    "notFound": "Page not found",
+    "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "serverError": "Server error",
+    "networkError": "Network error",
+    "validationError": "Validation error"
+  },
+  "home": {
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "modules": "Modules",
+      "templates": "UI Templates",
+      "login": "Login / Sign Up"
+    },
+    "hero": {
+      "title": "The All-In-One Platform for Field Service Professionals",
+      "subtitle": "Quote, schedule, invoice, and get paid faster. GetWorken helps you manage your entire business from your phone or desktop.",
+      "badge": {
+        "label": "Private Beta",
+        "text": "Early access — invites rolling out"
+      },
+      "benefits": [
+        "Simple quoting & PDF estimates",
+        "Drag & drop scheduling with conflict detection",
+        "Invoicing + payments ready to go"
+      ],
+      "trust": {
+        "label": "Early adopters",
+        "value": "50+ contractors in beta",
+        "disclaimer": "Join the private beta • Invites rolling out now"
+      },
+      "mockup": {
+        "alt": "App mockup — scheduling dashboard",
+        "label": "Demo Dashboard",
+        "title": "Schedule & route teams",
+        "badge": "Live Demo"
+      },
+      "cta": {
+        "primary": "Join the Waitlist",
+        "secondary": "Explore Features"
+      },
+      "disclaimer": "No credit card required • Full access to all features"
+    },
+    "stats": {
+      "users": {
+        "value": "0",
+        "label": "Active Users"
+      },
+      "jobs": {
+        "value": "0",
+        "label": "Jobs Completed"
+      },
+      "revenue": {
+        "value": "$0",
+        "label": "Revenue Processed"
+      },
+      "rating": {
+        "value": "0/5",
+        "label": "Customer Rating"
+      }
+    },
+    "features": {
+      "title": "Everything You Need to Run Your Business",
+      "subtitle": "Powerful features designed for field service professionals",
+      "quoting": {
+        "title": "Instant Quoting",
+        "description": "Create and send professional, accurate quotes in minutes from anywhere with PDF generation.",
+        "status": "Available Now"
+      },
+      "scheduling": {
+        "title": "Smart Scheduling",
+        "description": "Drag-and-drop calendar to manage jobs, crews, and routes efficiently with conflict detection.",
+        "status": "Coming Soon"
+      },
+      "payments": {
+        "title": "Invoicing & Payments",
+        "description": "Generate invoices automatically and accept online payments to improve cash flow.",
+        "status": "Coming Soon"
+      },
+      "crm": {
+        "title": "Client Management (CRM)",
+        "description": "Keep track of all your client details, history, and communications in one place.",
+        "status": "Available Now"
+      },
+      "analytics": {
+        "title": "Business Dashboard",
+        "description": "Get a real-time overview of your sales, jobs, and team performance with analytics.",
+        "status": "Coming Soon"
+      },
+      "mobile": {
+        "title": "Mobile & Web App",
+        "description": "Manage your business on the go with our powerful web app, native mobile app coming soon.",
+        "status": "Coming Soon"
+      }
+    },
+    "pricing": {
+      "title": "Simple, Transparent Pricing",
+      "subtitle": "Choose the plan that fits your business needs",
+      "billing": {
+        "monthly": "Monthly",
+        "annual": "Annual",
+        "annualSave": "Save 20%"
+      },
+      "planTypes": {
+        "solo": "Solo Plans",
+        "team": "Team Plans"
+      },
+      "plans": {
+        "freeSolo": {
+          "name": "Free Solo",
+          "description": "Perfect for getting started",
+          "price": "$0",
+          "period": "/month",
+          "users": "1 contractor + 1 employee",
+          "cta": "Join Waitlist",
+          "features": [
+            "3 Jobs/month",
+            "10 Estimates/month",
+            "25 Customers",
+            "50 Notifications/month"
+          ],
+          "excluded": ["SMS Messaging", "GPS Routing"]
+        },
+        "soloBasic": {
+          "name": "Solo Basic",
+          "description": "For individual contractors",
+          "priceMonthly": "$49",
+          "priceAnnual": "$39",
+          "period": "/month",
+          "annualBilling": "Billed annually at $468",
+          "users": "1 contractor + 6 employees",
+          "cta": "Join Waitlist",
+          "features": [
+            "50 Jobs/month",
+            "25 Estimates/month",
+            "100 Customers",
+            "100 SMS/month",
+            "Basic Scheduling"
+          ],
+          "excluded": ["GPS Routing"]
+        },
+        "soloPro": {
+          "name": "Solo Pro",
+          "description": "Full-featured for solos",
+          "priceMonthly": "$99",
+          "priceAnnual": "$79",
+          "period": "/month",
+          "annualBilling": "Billed annually at $948",
+          "users": "1 contractor + unlimited employees",
+          "cta": "Join Waitlist",
+          "badge": "MOST POPULAR",
+          "features": [
+            "Unlimited Jobs",
+            "Unlimited Estimates",
+            "Unlimited Customers",
+            "500 SMS/month",
+            "GPS & Route Optimization",
+            "Advanced Analytics"
+          ]
+        },
+        "teamBasic": {
+          "name": "Team Basic",
+          "description": "For small teams",
+          "priceMonthly": "$199",
+          "priceAnnual": "$159",
+          "period": "/month",
+          "annualBilling": "Billed annually at $1,908",
+          "users": "3 contractors + unlimited employees",
+          "cta": "Join Waitlist",
+          "features": [
+            "200 Jobs/month",
+            "100 Estimates/month",
+            "500 Customers",
+            "200 SMS/month",
+            "Team Scheduling",
+            "Basic Reports"
+          ],
+          "excluded": ["Custom Branding", "API Access"]
+        },
+        "teamPro": {
+          "name": "Team Pro",
+          "description": "For growing teams",
+          "priceMonthly": "$399",
+          "priceAnnual": "$319",
+          "period": "/month",
+          "annualBilling": "Billed annually at $3,828",
+          "users": "10 contractors + unlimited employees",
+          "cta": "Join Waitlist",
+          "badge": "BEST VALUE",
+          "features": [
+            "Unlimited Jobs",
+            "Unlimited Estimates",
+            "Unlimited Customers",
+            "1,000 SMS/month",
+            "Advanced Team Features",
+            "Custom Branding",
+            "Priority Support"
+          ],
+          "excluded": ["Dedicated Account Manager"]
+        },
+        "enterprise": {
+          "name": "Enterprise",
+          "description": "Custom solution",
+          "price": "Custom",
+          "users": "Unlimited everything",
+          "cta": "Join Waitlist",
+          "features": [
+            "Unlimited Everything",
+            "Unlimited SMS",
+            "API Access",
+            "Custom Integration",
+            "Dedicated Account Manager",
+            "SLA Guarantee",
+            "White Label Option"
+          ]
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Transform Your Field Service Business?",
+      "subtitle": "Join thousands of professionals who trust GetWorken to run their business",
+      "button": "Join the Waitlist",
+      "disclaimer": "Early access invites rolling out • Full access to all features"
+    },
+    "footer": {
+      "tagline": "The Ultimate Tool for Field Service Professionals",
+      "copyright": "© 2025 GetWorken. All rights reserved."
+    },
+    "roadmap": {
+      "title": "Roadmap & Release Timeline",
+      "quarters": {
+        "q4_2025": {
+          "label": "Q4 2025",
+          "title": "CRM (Live)",
+          "description": "Core client management, contact import, basic quoting."
+        },
+        "q1_2026": {
+          "label": "Q1 2026",
+          "title": "Scheduling & Mobile App",
+          "description": "Drag & drop scheduling, route optimization, native mobile app beta."
+        },
+        "q2_2026": {
+          "label": "Q2 2026",
+          "title": "Invoicing & Payments",
+          "description": "Online payments, automated invoices and accounting exports."
+        }
+      }
+    }
+  }
+}

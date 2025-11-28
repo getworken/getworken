@@ -1,0 +1,32 @@
+# Widgets Layer
+
+This directory contains composite UI blocks per Feature-Sliced Design (FSD).
+
+Widgets are larger UI components that combine multiple features and entities:
+- Dashboard layouts
+- Headers and navigation bars
+- Sidebars
+- Complex forms that span multiple features
+
+Example structure:
+```
+widgets/
+  dashboard-header/
+    ui/
+      DashboardHeader.tsx
+    index.ts
+  auth-layout/
+    ui/
+      AuthLayout.tsx
+    index.ts
+```
+
+Widgets can import from:
+- ✅ features/
+- ✅ entities/
+- ✅ shared/
+
+Widgets CANNOT import from:
+- ❌ pages/
+- ❌ app/
+- ❌ other widgets/

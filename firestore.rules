@@ -1,0 +1,188 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isStaffMember() {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.staffMember == true;
+    }
+
+    function hasRole(role) {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
+    }
+
+    function isSuperAdmin() {
+      return hasRole('super-admin');
+    }
+
+    function isAdmin() {
+      return hasRole('admin') || isSuperAdmin();
+    }
+
+    function isClient() {
+      return hasRole('client');
+    }
+
+    // Users collection
+    match /users/{userId} {
+      // Allow user to read their own document
+      allow read: if isOwner(userId);
+
+      // Allow user to create their own document during signup
+      allow create: if isOwner(userId) &&
+                      request.resource.data.uid == userId &&
+                      request.resource.data.role == 'client' &&
+                      request.resource.data.staffMember == false;
+
+      // Allow user to update their own document
+      allow update: if isOwner(userId);
+
+      // Staff members can read any user
+      allow read: if isStaffMember();
+
+      // Admins can write any user
+      allow write: if isAdmin();
+    }
+
+    // Business profiles collection
+    match /businesses/{businessId} {
+      // Allow listing all businesses for authenticated users (will be filtered by query)
+      allow list: if isSignedIn();
+
+      // Business owner can read/write their business
+      allow get, write: if isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.profiles.business.businessId == businessId;
+
+      // Public read for completed businesses
+      allow get: if resource.data.isPublic == true;
+
+      // Staff can read/write all
+      allow read, write: if isStaffMember();
+    }
+
+    // Contractor profiles collection
+    match /contractors/{contractorId} {
+      // Allow listing all contractors for authenticated users (will be filtered by query)
+      allow list: if isSignedIn();
+
+      // Contractor owner can read/write their profile
+      allow get, write: if isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.profiles.contractor.contractorId == contractorId;
+
+      // Public read for completed contractors
+      allow get: if resource.data.isPublic == true;
+
+      // Staff can read/write all
+      allow read, write: if isStaffMember();
+    }
+
+    // Employee profiles collection
+    match /employees/{employeeId} {
+      // Allow listing all employees for authenticated users (will be filtered by query)
+      allow list: if isSignedIn();
+
+      // Employee owner can read/write their profile
+      allow get, write: if isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.profiles.employee.employeeId == employeeId;
+
+      // Business owners can read their employees
+      allow get: if isSignedIn();
+
+      // Staff can read/write all
+      allow read, write: if isStaffMember();
+    }
+
+    // Customer profiles collection
+    match /customers/{customerId} {
+      // Customer owner can read/write their profile
+      allow read, write: if isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.profiles.customer.customerId == customerId;
+
+      // Staff can read/write all
+      allow read, write: if isStaffMember();
+    }
+
+    // Invitations collection
+    match /invitations/{inviteId} {
+      // Anyone can read invitations sent to their email
+      allow read: if isSignedIn() &&
+        resource.data.email == request.auth.token.email;
+
+      // Business/Contractor owners can create invitations
+      allow create: if isSignedIn();
+
+      // Invitation owner or recipient can update
+      allow update: if isSignedIn() &&
+        (resource.data.invitedBy == request.auth.uid ||
+         resource.data.email == request.auth.token.email);
+
+      // Staff can do anything
+      allow read, write: if isStaffMember();
+    }
+
+    // Jobs collection
+    match /jobs/{jobId} {
+      // Public read for active jobs
+      allow read: if resource.data.status == 'active';
+
+      // Job owner can read/write
+      allow read, write: if isSignedIn() &&
+        resource.data.createdBy == request.auth.uid;
+
+      // Staff can read/write all
+      allow read, write: if isStaffMember();
+    }
+
+    // Estimates collection
+    match /estimates/{estimateId} {
+      // Estimate owner or recipient can read
+      allow read: if isSignedIn() &&
+        (resource.data.businessId == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.profiles.business.businessId ||
+         resource.data.customerId == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.profiles.customer.customerId);
+
+      // Business owner can create/update their estimates
+      allow create, update: if isSignedIn() &&
+        request.resource.data.businessId == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.profiles.business.businessId;
+
+      // Staff can read/write all
+      allow read, write: if isStaffMember();
+    }
+
+    // Messages/Chat collection
+    match /chats/{chatId} {
+      // Participants can read/write
+      allow read, write: if isSignedIn() &&
+        request.auth.uid in resource.data.participants;
+
+      // Staff can read/write all
+      allow read, write: if isStaffMember();
+    }
+
+    // Waitlist collection (Public Write Access with validation)
+    match /waitlist/{document} {
+      // Anyone can create a waitlist entry
+      allow create: if request.resource.data.email is string &&
+                      request.resource.data.name is string &&
+                      request.resource.data.status == 'pending';
+
+      // Only admins can read/update/delete
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Default deny all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

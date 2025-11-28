@@ -1,0 +1,43 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isRole(roleName) {
+      return isSignedIn() && request.auth.token.role == roleName;
+    }
+    
+    function isAdmin() {
+      return isRole('admin') || isRole('super-admin');
+    }
+    
+    function isStaffMember() {
+      return isAdmin() || isRole('moderator') || isRole('support');
+    }
+    
+    // User uploads (profile images, documents)
+    match /users/{userId}/{allPaths=**} {
+      // Users can read/write their own files
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+      
+      // Staff can read/write all files
+      allow read, write: if isStaffMember();
+    }
+    
+    // Public files (accessible to all)
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Default deny
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

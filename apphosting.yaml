@@ -1,0 +1,94 @@
+# Firebase App Hosting Configuration
+# https://firebase.google.com/docs/app-hosting
+
+# Runtime configuration
+# Optimized for pre-launch waitlist mode (low traffic, static content)
+runConfig:
+  # CPU allocation: 1 vCPU is sufficient for static Next.js pages
+  # Scale up to 2-4 when adding Server Actions post-launch
+  cpu: 1
+
+  # Memory: 512MB handles Next.js SSR/SSG efficiently
+  # Pre-launch traffic is minimal, no need for higher memory
+  memoryMiB: 512
+
+  # Concurrency: 80 requests per instance (Cloud Run default)
+  # Each instance can handle 80 concurrent requests before spawning new instances
+  concurrency: 80
+
+  # Max instances: Cap at 5 to control costs during pre-launch
+  # Scale to 20-50+ post-launch based on traffic patterns
+  maxInstances: 5
+
+  # Min instances: 0 for cost optimization (cold starts acceptable pre-launch)
+  # Set to 1-2 post-launch to eliminate cold starts for better UX
+  minInstances: 0
+
+# Environment variables (non-secret)
+# For secrets, use Firebase Console → App Hosting → Secrets
+env:
+  - variable: NODE_ENV
+    value: production
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_LAUNCH_MODE
+    value: 'false'
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: AIzaSyBocgnIQi8cmSDV5oSwKXIFWemTBGi6jL0
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: getworken-b6f27.firebaseapp.com
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: getworken-b6f27
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: getworken-b6f27.firebasestorage.app
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: '380348002091'
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: 1:380348002091:web:f59760a36b48c7a3509f6e
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: FIREBASE_PROJECT_ID
+    value: getworken-b6f27
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: FIREBASE_CLIENT_EMAIL
+    value: firebase-adminsdk-fbsvc@getworken-b6f27.iam.gserviceaccount.com
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: FIREBASE_PRIVATE_KEY
+    value: '-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC3WkEu5zMOaaTD\n3QvPTEDG4wguF7KAOQ5gL6YAPLZ8TyR9XKRf8pxKWKLzDoxCTP/YUtlJDMmYvkGX\nMV/c0BMyjjVXaMoBSQgXm/Xp/A7e1PoSE7YOqLx+aU4TRvR2IGG2mykT4oZTojtu\nDv90kt74lXQ5nba2kpea+7ChHwewxHylKdoUtr4jkmKEDhUdRtEslcAJqpQp6NDa\nn8KXoM+eUy32OqfVWUAq1/kHYZqvErNUkWelB8LhcU1XKg4ymO6wgGswt+2nhuFJ\nj9vdQcLursY5fPH7hlwFETW8h0MxAhvrETy+dgCu0ZF+vg7iPZCs1oyXnYYxSydP\nLuqpOeZNAgMBAAECggEAA9whjSmO2JnUFHooen0MzA28KVmUXMCsEyL4UqmfNIS8\nrEBGsZe7lJEYdRd0T8er3H5PVrYEicj6O9hClV/IAljIugYEYqc1RWdMyQKRFD3V\njzXdBPf7vTQy/D2SfejL8HqEZd0Z837HKNel/GqZyQ/puiDI15UZyJ3N0nEtye8q\nihjxu44m3AOGag9bb7s98IMZo+TK8jSBGnagXVgVDNtXJcAOP+BFZWhYrdU/2Oml\nuxsuSQyT6biFwFLwM0jss7olykUUi6B4vdmAy4yNI8QF5RRvLeWlKJcJVy8f59/0\nkz3Yrj0yg6t3Da7wzPiMm97T+ooPO5EA4PAMQdC7HQKBgQDdolzJBRQ//+fioUVx\nocoZGF4kj4SgmIYepCPn9nOSAydduBEnVbgarnXVvtdYtQey3dxjvfpCoAOqHY7E\nyJXUmS2Z4CHMNLsnyWrL3T62uUH0jIKB4U/0e5WbSxynOp/tPsZgJEnwd0oMGUg4\nKVNOArw0mm3tHtBYKx6QE7KOVwKBgQDTyFMBQiBYAjH/MJKNA55NniMLbZL2Six1\nLBTH5PGqyK7AJRMshJrJgvy/m83rerlsz1sC/nUrdvjWd0R5jeyXN8LbYX7ouU1r\nQv2q7SUfkivA1U5CZSVycORUU0VL7YC3BGnNL4CY3qddGp9AMbTWaOSfmxVqYen+\n9l6uufYB+wKBgQCmRvl1lunqWgOOc4+2ALuuuClpJINMOSHmOx71GGD8WoFePoog\nCJ9m5RxikBrf4nE0MF74Nb9b3NDi/+nsmNBP/9vGZfD1U1pWLzaAXCyAydxBrGj9\nKBzkPxOuvltw2vrA8yfBWXhfgB99lDoqaFanYEXy8SknjMaiXzc+wIhlYQKBgQCg\nkdzlMlbFg3yWyCQFCH5IySI28vAfDiPg/vgOivX0D8323uVHto6JRGgPerjI1jaq\nWhjeD0GVH9IRAUKIiuObz2pM3QHUv1IEhjlAFCc2ZaQIw3Ffg8K9nvxvNuduZvdV\nS+JP8LkmroHkZF/j0wwSGFtm67V0ACLi7bbh8RqlawKBgQCQZGy7VHnNcIfkJAKc\nGjUUsN+WgcGi3CSAO85qELFAAEjZOvABUhnX0rdKGUt+hbSu0zDVqFoCehldI4Hf\nHIg0IldTO/wd6YLs0I9oNy2Nhn6krIMQtBnuWdTwxeHvIQa6/AsHdXX+pneP2w34\n/O9MfnPEij2uLZXtH/I9x0xcwA==\n-----END PRIVATE KEY-----'
+    availability:
+      - BUILD
+      - RUNTIME

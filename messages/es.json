@@ -1,0 +1,234 @@
+{
+  "common": {
+    "appName": "GetWorken",
+    "welcome": "Bienvenido",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "actions": "Acciones"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión",
+    "login": "Iniciar sesión",
+    "signup": "Registrarse"
+  },
+  "auth": {
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "resetPassword": "Restablecer contraseña",
+    "signIn": "Iniciar sesión",
+    "signUp": "Registrarse",
+    "signOut": "Cerrar sesión",
+    "createAccount": "Crear cuenta",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "dontHaveAccount": "¿No tienes una cuenta?",
+    "invalidCredentials": "Correo electrónico o contraseña inválidos",
+    "accountCreated": "Cuenta creada exitosamente",
+    "passwordResetSent": "Correo de restablecimiento de contraseña enviado",
+    "displayName": "Nombre para mostrar"
+  },
+  "dashboard": {
+    "title": "Panel",
+    "overview": "Resumen",
+    "profile": "Perfil",
+    "directory": "Directorio",
+    "team": "Equipo",
+    "chat": "Chat",
+    "welcomeMessage": "Bienvenido a tu panel"
+  },
+  "profile": {
+    "business": "Negocio",
+    "contractor": "Contratista",
+    "employee": "Empleado",
+    "customer": "Cliente",
+    "switchProfile": "Cambiar perfil",
+    "activeProfile": "Perfil activo",
+    "profileSettings": "Configuración del perfil"
+  },
+  "roles": {
+    "super-admin": "Super Administrador",
+    "admin": "Administrador",
+    "moderator": "Moderador",
+    "support": "Soporte",
+    "client": "Cliente"
+  },
+  "errors": {
+    "generic": "Ocurrió un error",
+    "notFound": "Página no encontrada",
+    "unauthorized": "No autorizado",
+    "forbidden": "Prohibido",
+    "serverError": "Error del servidor",
+    "networkError": "Error de red",
+    "validationError": "Error de validación"
+  },
+  "home": {
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "modules": "Modules",
+      "templates": "UI Templates",
+      "login": "Login / Sign Up"
+    },
+    "hero": {
+      "title": "The All-In-One Platform for Field Service Professionals",
+      "subtitle": "Quote, schedule, invoice, and get paid faster. GetWorken helps you manage your entire business from your phone or desktop.",
+      "cta": {
+        "primary": "Start Your Free 14-Day Trial",
+        "secondary": "Explore Features"
+      },
+      "disclaimer": "No credit card required • Cancel anytime • 14-day money-back guarantee"
+    },
+    "stats": {
+      "users": {
+        "value": "10,000+",
+        "label": "Active Users"
+      },
+      "jobs": {
+        "value": "500K+",
+        "label": "Jobs Completed"
+      },
+      "revenue": {
+        "value": "$50M+",
+        "label": "Revenue Processed"
+      },
+      "rating": {
+        "value": "4.9/5",
+        "label": "Customer Rating"
+      }
+    },
+    "features": {
+      "title": "Everything You Need to Run Your Business",
+      "subtitle": "Powerful features designed for field service professionals",
+      "quoting": {
+        "title": "Instant Quoting",
+        "description": "Create and send professional, accurate quotes in minutes from anywhere with PDF generation.",
+        "status": "Available Now"
+      },
+      "scheduling": {
+        "title": "Smart Scheduling",
+        "description": "Drag-and-drop calendar to manage jobs, crews, and routes efficiently with conflict detection.",
+        "status": "Coming Soon"
+      },
+      "payments": {
+        "title": "Invoicing & Payments",
+        "description": "Generate invoices automatically and accept online payments to improve cash flow.",
+        "status": "Coming Soon"
+      },
+      "crm": {
+        "title": "Client Management (CRM)",
+        "description": "Keep track of all your client details, history, and communications in one place.",
+        "status": "Available Now"
+      },
+      "analytics": {
+        "title": "Business Dashboard",
+        "description": "Get a real-time overview of your sales, jobs, and team performance with analytics.",
+        "status": "Coming Soon"
+      },
+      "mobile": {
+        "title": "Mobile & Web App",
+        "description": "Manage your business on the go with our powerful web app, native mobile app coming soon.",
+        "status": "Coming Soon"
+      }
+    },
+    "pricing": {
+      "title": "Simple, Transparent Pricing",
+      "subtitle": "Choose the plan that fits your business needs",
+      "billing": {
+        "monthly": "Monthly",
+        "annual": "Annual",
+        "annualSave": "Save 20%"
+      },
+      "planTypes": {
+        "solo": "Solo Plans",
+        "team": "Team Plans"
+      },
+      "plans": {
+        "freeSolo": {
+          "name": "Free Solo",
+          "description": "Perfect for getting started",
+          "price": "$0",
+          "period": "/month",
+          "users": "1 contractor + 1 employee",
+          "cta": "Get Started Free"
+        },
+        "soloBasic": {
+          "name": "Solo Basic",
+          "description": "For individual contractors",
+          "priceMonthly": "$49",
+          "priceAnnual": "$39",
+          "period": "/month",
+          "annualBilling": "Billed annually at $468",
+          "users": "1 contractor + 6 employees",
+          "cta": "Start Free Trial",
+          "badge": "MOST POPULAR"
+        },
+        "soloPro": {
+          "name": "Solo Pro",
+          "description": "Full-featured for solos",
+          "priceMonthly": "$99",
+          "priceAnnual": "$79",
+          "period": "/month",
+          "annualBilling": "Billed annually at $948",
+          "users": "1 contractor + unlimited employees",
+          "cta": "Start Free Trial"
+        },
+        "teamBasic": {
+          "name": "Team Basic",
+          "description": "For small teams",
+          "priceMonthly": "$199",
+          "priceAnnual": "$159",
+          "period": "/month",
+          "annualBilling": "Billed annually at $1,908",
+          "users": "3 contractors + unlimited employees",
+          "cta": "Start Free Trial"
+        },
+        "teamPro": {
+          "name": "Team Pro",
+          "description": "For growing teams",
+          "priceMonthly": "$399",
+          "priceAnnual": "$319",
+          "period": "/month",
+          "annualBilling": "Billed annually at $3,828",
+          "users": "10 contractors + unlimited employees",
+          "cta": "Start Free Trial",
+          "badge": "BEST VALUE"
+        },
+        "enterprise": {
+          "name": "Enterprise",
+          "description": "Custom solution",
+          "price": "Custom",
+          "users": "Unlimited everything",
+          "cta": "Contact Sales"
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Transform Your Field Service Business?",
+      "subtitle": "Join thousands of professionals who trust GetWorken to run their business",
+      "button": "Start Your Free Trial Today",
+      "disclaimer": "No credit card required • Full access to all features"
+    },
+    "footer": {
+      "tagline": "The Ultimate Tool for Field Service Professionals",
+      "copyright": "© 2025 GetWorken. All rights reserved."
+    }
+  }
+}

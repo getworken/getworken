@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>GetWorken — Field Service Management (Waitlist)</title>
+    <meta
+      name="description"
+      content="GetWorken helps contractors quote, schedule, invoice, and get paid — join the waitlist for early access."
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* --- Design tokens --- */
+      :root {
+        --background: 215 28% 17%;
+        --foreground: 210 40% 98%;
+        --card: 215 25% 27%;
+        --card-foreground: 210 40% 98%;
+        --popover: 215 25% 27%;
+        --popover-foreground: 210 40% 98%;
+        --primary: 173 58% 39%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 217 33% 22%;
+        --secondary-foreground: 210 40% 98%;
+        --muted: 217 33% 22%;
+        --muted-foreground: 215 20% 65%;
+        --accent: 217 33% 22%;
+        --accent-foreground: 210 40% 98%;
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 217 33% 22%;
+        --input: 217 33% 22%;
+        --ring: 173 58% 39%;
+        --radius: 0.5rem;
+
+        /* Status Colors */
+        --status-live: 160 84% 39%;
+        --status-live-foreground: 145 80% 10%;
+        --status-dev: 45 93% 47%;
+        --status-dev-foreground: 40 80% 10%;
+        --status-soon: 0 84% 60%;
+        --status-soon-foreground: 0 0% 100%;
+      }
+
+      /* Helper color classes */
+      .bg-root {
+        background-color: hsl(var(--background));
+        color: hsl(var(--foreground));
+      }
+      .bg-card {
+        background-color: hsl(var(--card));
+      }
+      .border-theme {
+        border-color: hsl(var(--border));
+      }
+
+      .card {
+        background-color: hsl(var(--card));
+        color: hsl(var(--card-foreground));
+        border: 1px solid hsl(var(--border));
+        border-radius: var(--radius);
+      }
+      .btn-primary {
+        background: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
+        border-radius: 0.5rem;
+        transition: opacity 0.2s;
+      }
+      .btn-primary:hover {
+        opacity: 0.9;
+      }
+      .btn-primary:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px hsla(var(--ring), 0.18);
+      }
+
+      /* Badges */
+      .badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+      .badge-live {
+        background: hsl(var(--status-live));
+        color: hsl(var(--status-live-foreground));
+      }
+      .badge-dev {
+        background: hsl(var(--status-dev));
+        color: hsl(var(--status-dev-foreground));
+      }
+      .badge-soon {
+        background: hsl(var(--status-soon));
+        color: hsl(var(--status-soon-foreground));
+      }
+
+      .muted {
+        color: hsl(var(--muted-foreground));
+      }
+      .text-primary {
+        color: hsl(var(--primary));
+      }
+
+      /* Utility */
+      img.mock {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.75rem;
+      }
+      .modal-backdrop {
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+      }
+
+      /* Comparison Table Styling */
+      details summary::-webkit-details-marker {
+        display: none;
+      }
+      details > summary {
+        list-style: none;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      details[open] > summary svg {
+        transform: rotate(180deg);
+      }
+      .table-row {
+        border-bottom: 1px solid hsl(var(--border));
+      }
+      .table-row:last-child {
+        border-bottom: none;
+      }
+      .table-cell {
+        padding: 0.75rem 1rem;
+        text-align: center;
+      }
+      .table-cell:first-child {
+        text-align: left;
+        padding-left: 0;
+      }
+      .check-icon {
+        color: hsl(var(--primary));
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body class="bg-root min-h-screen antialiased">
+    <!-- NAV -->
+    <header
+      class="bg-root/90 border-theme sticky top-0 z-40 mx-auto flex max-w-7xl items-center justify-between border-b px-6 py-6 backdrop-blur-md"
+    >
+      <div class="flex items-center gap-3">
+        <div
+          class="flex h-10 w-10 items-center justify-center rounded-lg"
+          style="
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            font-weight: 700;
+          "
+        >
+          W
+        </div>
+        <div>
+          <a href="/" class="text-lg font-semibold">GetWorken</a>
+          <div class="muted text-xs">Field service, simplified</div>
+        </div>
+      </div>
+      <nav class="hidden items-center gap-6 md:flex">
+        <a href="#features" class="muted transition-colors hover:text-white"
+          >Features</a
+        >
+        <a href="#pricing" class="muted transition-colors hover:text-white"
+          >Pricing</a
+        >
+        <a href="#comparison" class="muted transition-colors hover:text-white"
+          >Comparison</a
+        >
+        <a
+          href="#waitlist"
+          class="btn-primary px-4 py-2 text-sm font-medium"
+          aria-haspopup="dialog"
+          >Join Waitlist</a
+        >
+      </nav>
+      <button class="text-white md:hidden" aria-label="Menu">
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          ></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- HERO -->
+    <main class="mx-auto max-w-7xl px-6">
+      <section
+        class="grid grid-cols-1 items-center gap-10 py-16 md:grid-cols-2 md:py-24"
+      >
+        <div>
+          <div
+            class="border-theme mb-6 inline-flex items-center gap-3 rounded-full border bg-card px-3 py-1"
+          >
+            <span class="badge badge-live">Private Beta</span>
+            <span class="muted text-sm">Invites rolling out now</span>
+          </div>
+
+          <h1
+            class="mb-6 text-4xl font-extrabold leading-tight md:text-6xl"
+            style="color: hsl(var(--foreground))"
+          >
+            The All-In-One Platform for Field Service.
+          </h1>
+
+          <p class="muted mb-8 max-w-xl text-lg">
+            Quote faster, schedule smarter, and get paid. Manage your entire
+            business from your phone or desktop. Join the waitlist for early
+            access.
+          </p>
+
+          <div
+            class="flex flex-col items-start gap-4 sm:flex-row sm:items-center"
+          >
+            <!-- Primary waitlist CTA -->
+            <a
+              href="#waitlist"
+              class="btn-primary w-full px-8 py-4 text-center text-base font-bold shadow-lg sm:w-auto"
+              >Join the Waitlist</a
+            >
+
+            <!-- Secondary -->
+            <a
+              href="#features"
+              class="border-theme muted w-full rounded-md border px-6 py-4 text-center transition-colors hover:bg-card hover:text-white sm:w-auto"
+              >Explore Features</a
+            >
+          </div>
+
+          <!-- Quick benefit list -->
+          <ul class="mt-10 space-y-3 text-sm md:text-base">
+            <li class="flex items-start gap-3">
+              <strong class="text-primary">✓</strong> Simple quoting & PDF
+              estimates
+            </li>
+            <li class="flex items-start gap-3">
+              <strong class="text-primary">✓</strong> Drag & drop scheduling
+              with conflict detection
+            </li>
+            <li class="flex items-start gap-3">
+              <strong class="text-primary">✓</strong> Invoicing + payments ready
+              to go
+            </li>
+          </ul>
+
+          <!-- Trust / microproof -->
+          <div class="mt-8 flex items-center gap-4">
+            <div class="card flex items-center gap-3 px-4 py-3">
+              <div class="text-sm">
+                <div class="muted text-xs">Early adopters</div>
+                <div class="font-semibold">50+ contractors in beta</div>
+              </div>
+            </div>
+            <div class="muted text-xs">
+              No credit card required • Cancel anytime
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero mockup -->
+        <div class="relative flex justify-center md:justify-end">
+          <div
+            class="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-teal-500/20 to-blue-500/20 opacity-50 blur-3xl"
+          ></div>
+          <div
+            class="card border-theme w-full max-w-lg bg-card/80 p-4 shadow-2xl backdrop-blur-sm md:p-6"
+          >
+            <img
+              class="mock shadow-lg"
+              alt="App mockup — scheduling dashboard"
+              src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3"
+            />
+            <div class="mt-4 flex items-center justify-between">
+              <div>
+                <div class="muted text-xs">Demo Dashboard</div>
+                <div class="text-sm font-semibold">Schedule & route teams</div>
+              </div>
+              <div class="badge badge-live">Live Demo</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section id="features" class="border-theme border-t py-16 md:py-24">
+        <div class="mx-auto mb-12 max-w-4xl text-center">
+          <h2 class="mb-4 text-3xl font-bold md:text-4xl">
+            Everything you need to run field work
+          </h2>
+          <p class="muted text-lg">
+            Powerful CRM, scheduling, quoting, and invoicing tools built for the
+            field.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <!-- 1 -->
+          <article class="card p-6 transition-colors hover:border-primary/50">
+            <div class="mb-4 text-4xl">👥</div>
+            <h3 class="mb-2 text-xl font-bold">Client Management (CRM)</h3>
+            <p class="muted mb-4 text-sm">
+              Keep all client history, notes, jobs and details in one secure
+              place.
+            </p>
+            <span class="badge badge-live">✓ Available Now</span>
+          </article>
+
+          <!-- 2 -->
+          <article class="card p-6 transition-colors hover:border-primary/50">
+            <div class="mb-4 text-4xl">📅</div>
+            <h3 class="mb-2 text-xl font-bold">Smart Scheduling</h3>
+            <p class="muted mb-4 text-sm">
+              Drag & drop calendar, crew assignment and conflict detection.
+            </p>
+            <span class="badge badge-dev">🔨 In Development</span>
+          </article>
+
+          <!-- 3 -->
+          <article class="card p-6 transition-colors hover:border-primary/50">
+            <div class="mb-4 text-4xl">📄</div>
+            <h3 class="mb-2 text-xl font-bold">Instant Quoting</h3>
+            <p class="muted mb-4 text-sm">
+              Create and send professional, accurate quotes in minutes with PDF
+              generation.
+            </p>
+            <span class="badge badge-dev">🔨 In Development</span>
+          </article>
+
+          <!-- 4 -->
+          <article class="card p-6 transition-colors hover:border-primary/50">
+            <div class="mb-4 text-4xl">💳</div>
+            <h3 class="mb-2 text-xl font-bold">Invoicing & Payments</h3>
+            <p class="muted mb-4 text-sm">
+              Automated invoices, online payments and receipts to improve cash
+              flow.
+            </p>
+            <span class="badge badge-soon">⏳ Coming Soon</span>
+          </article>
+
+          <!-- 5 -->
+          <article class="card p-6 transition-colors hover:border-primary/50">
+            <div class="mb-4 text-4xl">📈</div>
+            <h3 class="mb-2 text-xl font-bold">Business Dashboard</h3>
+            <p class="muted mb-4 text-sm">
+              Real-time overview of sales, jobs, and team performance with
+              analytics.
+            </p>
+            <span class="badge badge-soon">⏳ Coming Soon</span>
+          </article>
+
+          <!-- 6 -->
+          <article class="card p-6 transition-colors hover:border-primary/50">
+            <div class="mb-4 text-4xl">📱</div>
+            <h3 class="mb-2 text-xl font-bold">Mobile & Web App</h3>
+            <p class="muted mb-4 text-sm">
+              Manage your business on the go. Native mobile app beta coming
+              soon.
+            </p>
+            <span class="badge badge-soon">⏳ Coming Soon</span>
+          </article>
+        </div>
+      </section>
+
+      <!-- PRICING -->
+      <section id="pricing" class="border-theme border-t py-16 md:py-24">
+        <div class="mx-auto mb-12 max-w-4xl text-center">
+          <h2 class="mb-4 text-3xl font-bold md:text-4xl">
+            Simple, Transparent Pricing
+          </h2>
+          <p class="muted text-lg">
+            Choose the plan that fits your business needs. Early access pricing.
+          </p>
+
+          <!-- Toggle (Visual only for this demo) -->
+          <div
+            class="border-theme mt-8 inline-flex rounded-lg border bg-card p-1"
+          >
+            <button
+              class="rounded-md bg-primary px-6 py-2 text-sm font-medium text-primary-foreground shadow-sm"
+            >
+              Monthly
+            </button>
+            <button
+              class="muted rounded-md px-6 py-2 text-sm font-medium hover:text-white"
+            >
+              Annual <span class="ml-1 text-xs text-primary">(Save 20%)</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <!-- Free Solo -->
+          <div class="card flex flex-col p-8">
+            <div class="mb-4">
+              <div class="muted text-lg font-medium">Free Solo</div>
+              <div class="mb-1 mt-2 text-4xl font-extrabold">
+                $0<span class="muted text-lg font-normal">/mo</span>
+              </div>
+              <div class="text-sm font-medium text-primary">
+                1 contractor + 1 employee
+              </div>
+            </div>
+            <ul class="muted mb-8 flex-1 space-y-3 text-sm">
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> 3 Jobs / month
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> 10 Estimates / month
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> 25 Customers
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> 50 Notifications / month
+              </li>
+              <li class="flex gap-2 opacity-50">
+                <span class="text-red-400">✕</span> SMS Messaging
+              </li>
+            </ul>
+            <a
+              href="#waitlist"
+              class="border-theme muted inline-block w-full rounded-md border px-4 py-3 text-center transition-colors hover:bg-white/5"
+              >Get Started Free</a
+            >
+          </div>
+
+          <!-- Solo Basic -->
+          <div class="card relative flex flex-col overflow-hidden p-8">
+            <div class="mb-4">
+              <div class="muted text-lg font-medium">Solo Basic</div>
+              <div class="mb-1 mt-2 text-4xl font-extrabold">
+                $49<span class="muted text-lg font-normal">/mo</span>
+              </div>
+              <div class="text-sm font-medium text-primary">
+                1 contractor + 6 employees
+              </div>
+            </div>
+            <ul class="muted mb-8 flex-1 space-y-3 text-sm">
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> 50 Jobs / month
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> 25 Estimates / month
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> 100 Customers
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> 100 SMS / month
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> Basic Scheduling
+              </li>
+            </ul>
+            <a
+              href="#waitlist"
+              class="btn-primary inline-block w-full px-4 py-3 text-center"
+              >Start Free Trial</a
+            >
+          </div>
+
+          <!-- Solo Pro -->
+          <div class="card relative flex flex-col border-2 border-primary p-8">
+            <div
+              class="absolute right-0 top-0 rounded-bl-lg bg-primary px-3 py-1 text-xs font-bold text-primary-foreground"
+            >
+              POPULAR
+            </div>
+            <div class="mb-4">
+              <div class="muted text-lg font-medium">Solo Pro</div>
+              <div class="mb-1 mt-2 text-4xl font-extrabold">
+                $99<span class="muted text-lg font-normal">/mo</span>
+              </div>
+              <div class="text-sm font-medium text-primary">
+                Unlimited employees
+              </div>
+            </div>
+            <ul class="muted mb-8 flex-1 space-y-3 text-sm">
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> Unlimited Jobs
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> Unlimited Estimates
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> Unlimited Customers
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> 500 SMS / month
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> GPS & Route Optimization
+              </li>
+              <li class="flex gap-2">
+                <span class="text-primary">✓</span> Advanced Analytics
+              </li>
+            </ul>
+            <a
+              href="#waitlist"
+              class="btn-primary inline-block w-full px-4 py-3 text-center shadow-lg"
+              >Start Free Trial</a
+            >
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <p class="muted text-sm">
+            Need a Team or Enterprise plan?
+            <a href="#waitlist" class="text-primary hover:underline"
+              >Contact Sales</a
+            >
+            for custom pricing.
+          </p>
+        </div>
+      </section>
+
+      <!-- DETAILED COMPARISON -->
+      <section id="comparison" class="border-theme border-t py-16 md:py-24">
+        <div class="mx-auto max-w-5xl">
+          <h3 class="mb-8 text-center text-2xl font-bold">
+            Detailed Feature Comparison
+          </h3>
+
+          <div class="card overflow-hidden">
+            <!-- Header Row -->
+            <div
+              class="border-theme sticky top-0 grid grid-cols-4 border-b bg-black/20 p-4 text-sm font-semibold"
+            >
+              <div class="col-span-1">Feature</div>
+              <div class="text-center text-muted">Free Solo</div>
+              <div class="text-center text-muted">Solo Basic</div>
+              <div class="text-center text-primary">Solo Pro</div>
+            </div>
+
+            <!-- Customer Management -->
+            <details class="border-theme group border-b" open>
+              <summary
+                class="flex cursor-pointer items-center justify-between bg-card p-4 hover:bg-white/5"
+              >
+                <span class="text-lg font-semibold text-primary"
+                  >Customer Management</span
+                >
+                <svg
+                  class="h-5 w-5 text-muted transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </summary>
+              <div class="text-sm">
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>CRM Core</div>
+                  <div class="muted table-cell">25 Clients</div>
+                  <div class="muted table-cell">100 Clients</div>
+                  <div class="table-cell font-bold">Unlimited</div>
+                </div>
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Contact Management</div>
+                  <div class="check-icon table-cell">✓</div>
+                  <div class="check-icon table-cell">✓</div>
+                  <div class="check-icon table-cell">✓</div>
+                </div>
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Client Portal</div>
+                  <div class="muted table-cell">View Only</div>
+                  <div class="check-icon table-cell">✓</div>
+                  <div class="check-icon table-cell">✓</div>
+                </div>
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Online Booking Requests</div>
+                  <div class="muted table-cell">5/mo</div>
+                  <div class="muted table-cell">25/mo</div>
+                  <div class="table-cell font-bold">Unlimited</div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Job Tracking -->
+            <details class="border-theme group border-b">
+              <summary
+                class="flex cursor-pointer items-center justify-between bg-card p-4 hover:bg-white/5"
+              >
+                <span class="text-lg font-semibold text-primary"
+                  >Job Tracking & Scheduling</span
+                >
+                <svg
+                  class="h-5 w-5 text-muted transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </summary>
+              <div class="text-sm">
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Scheduling Calendar</div>
+                  <div class="check-icon table-cell">✓</div>
+                  <div class="check-icon table-cell">✓</div>
+                  <div class="check-icon table-cell">✓</div>
+                </div>
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Recurring Jobs</div>
+                  <div class="muted table-cell">5</div>
+                  <div class="muted table-cell">25</div>
+                  <div class="table-cell font-bold">Unlimited</div>
+                </div>
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>GPS Routing</div>
+                  <div class="muted table-cell">-</div>
+                  <div class="muted table-cell">5/day</div>
+                  <div class="check-icon table-cell">✓</div>
+                </div>
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Job Attachments</div>
+                  <div class="muted table-cell">3/mo</div>
+                  <div class="muted table-cell">50/mo</div>
+                  <div class="table-cell font-bold">Unlimited</div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Quoting -->
+            <details class="border-theme group border-b">
+              <summary
+                class="flex cursor-pointer items-center justify-between bg-card p-4 hover:bg-white/5"
+              >
+                <span class="text-lg font-semibold text-primary"
+                  >Quoting & Estimates</span
+                >
+                <svg
+                  class="h-5 w-5 text-muted transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </summary>
+              <div class="text-sm">
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>PDF Generation</div>
+                  <div class="check-icon table-cell">✓</div>
+                  <div class="check-icon table-cell">✓</div>
+                  <div class="check-icon table-cell">✓</div>
+                </div>
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Estimates</div>
+                  <div class="muted table-cell">10/mo</div>
+                  <div class="muted table-cell">25/mo</div>
+                  <div class="table-cell font-bold">Unlimited</div>
+                </div>
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Automated Follow-Ups</div>
+                  <div class="muted table-cell">3/mo</div>
+                  <div class="muted table-cell">15/mo</div>
+                  <div class="table-cell font-bold">Unlimited</div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Invoicing & Payments -->
+            <details class="border-theme group border-b">
+              <summary
+                class="flex cursor-pointer items-center justify-between bg-card p-4 hover:bg-white/5"
+              >
+                <span class="text-lg font-semibold text-primary"
+                  >Invoicing & Payments</span
+                >
+                <svg
+                  class="h-5 w-5 text-muted transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </summary>
+              <div class="text-sm">
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Online Invoicing</div>
+                  <div class="muted table-cell">10/mo</div>
+                  <div class="muted table-cell">50/mo</div>
+                  <div class="table-cell font-bold">Unlimited</div>
+                </div>
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Credit Card Processing</div>
+                  <div class="muted table-cell">-</div>
+                  <div class="check-icon table-cell">✓</div>
+                  <div class="check-icon table-cell">✓</div>
+                </div>
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Recurring Invoices</div>
+                  <div class="muted table-cell">3</div>
+                  <div class="muted table-cell">15</div>
+                  <div class="table-cell font-bold">Unlimited</div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Marketing & Automation -->
+            <details class="group">
+              <summary
+                class="flex cursor-pointer items-center justify-between bg-card p-4 hover:bg-white/5"
+              >
+                <span class="text-lg font-semibold text-primary"
+                  >Marketing & Automation</span
+                >
+                <svg
+                  class="h-5 w-5 text-muted transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </summary>
+              <div class="text-sm">
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Email Marketing</div>
+                  <div class="muted table-cell">50/mo</div>
+                  <div class="muted table-cell">500/mo</div>
+                  <div class="table-cell font-bold">Unlimited</div>
+                </div>
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>SMS Marketing</div>
+                  <div class="muted table-cell">25/mo</div>
+                  <div class="muted table-cell">100/mo</div>
+                  <div class="muted table-cell">500/mo</div>
+                </div>
+                <div class="table-row grid grid-cols-4 p-4 hover:bg-white/5">
+                  <div>Zapier Integration</div>
+                  <div class="muted table-cell">-</div>
+                  <div class="muted table-cell">25/mo</div>
+                  <div class="check-icon table-cell">✓</div>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROADMAP -->
+      <section id="roadmap" class="border-theme border-t py-16 md:py-24">
+        <div class="mx-auto max-w-4xl">
+          <h3 class="mb-6 text-center text-2xl font-bold">
+            Roadmap & Release Timeline
+          </h3>
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div class="card p-4 transition-colors hover:bg-white/5">
+              <div class="mb-1 text-sm text-primary">Q4 2025</div>
+              <div class="text-lg font-semibold">CRM (Live)</div>
+              <p class="muted mt-2 text-sm">
+                Core client management, contact import, basic quoting.
+              </p>
+            </div>
+            <div class="card p-4 transition-colors hover:bg-white/5">
+              <div class="mb-1 text-sm text-yellow-500">Q1 2026</div>
+              <div class="text-lg font-semibold">Scheduling & Mobile App</div>
+              <p class="muted mt-2 text-sm">
+                Drag & drop scheduling, route optimization, native mobile app
+                beta.
+              </p>
+            </div>
+            <div class="card p-4 transition-colors hover:bg-white/5">
+              <div class="mb-1 text-sm text-red-400">Q2 2026</div>
+              <div class="text-lg font-semibold">Invoicing & Payments</div>
+              <p class="muted mt-2 text-sm">
+                Online payments, automated invoices and accounting exports.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer
+      class="muted border-theme mx-auto mt-12 max-w-7xl border-t px-6 py-10 text-sm"
+    >
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:gap-4">
+        <div>
+          <div class="font-semibold text-white">GetWorken</div>
+          <div class="muted">
+            The Ultimate Tool for Field Service Professionals
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-6">
+          <a href="#waitlist" class="transition-colors hover:text-primary"
+            >Join Waitlist</a
+          >
+          <a href="#features" class="transition-colors hover:text-primary"
+            >Features</a
+          >
+          <a href="#pricing" class="transition-colors hover:text-primary"
+            >Pricing</a
+          >
+          <a href="#roadmap" class="transition-colors hover:text-primary"
+            >Roadmap</a
+          >
+          <a href="#" class="transition-colors hover:text-primary">Login</a>
+        </div>
+      </div>
+      <div
+        class="border-theme/50 mt-8 flex flex-col justify-between gap-4 border-t pt-8 md:flex-row"
+      >
+        <div>© 2025 GetWorken. All rights reserved.</div>
+        <div class="flex gap-4">
+          <a href="#" class="hover:text-white">Privacy</a>
+          <a href="#" class="hover:text-white">Terms</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- WAITLIST FORM SECTION (anchor target) -->
+    <section
+      id="waitlist"
+      class="fixed inset-0 z-50 flex hidden items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="waitlistTitle"
+    >
+      <div class="modal-backdrop absolute inset-0"></div>
+      <div class="relative z-10 mx-4 w-full max-w-md">
+        <div class="card p-6 shadow-2xl">
+          <button
+            onclick="toggleWaitlist(false)"
+            aria-label="Close"
+            class="absolute right-4 top-4 text-muted transition-colors hover:text-white"
+          >
+            ✕
+          </button>
+          <h4 id="waitlistTitle" class="mb-2 text-xl font-bold">
+            Join the Early Access Waitlist
+          </h4>
+          <p class="muted mb-4 text-sm">
+            Enter your information and we’ll email you an invite when your
+            category opens.
+          </p>
+
+          <form id="waitlistForm">
+            <label class="mb-2 block text-sm font-medium">Full name</label>
+            <input
+              name="name"
+              required
+              class="border-theme mb-3 w-full rounded border p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              style="
+                background: hsl(var(--input));
+                color: hsl(var(--foreground));
+              "
+              placeholder="John Doe"
+            />
+
+            <label class="mb-2 block text-sm font-medium">Work email</label>
+            <input
+              name="email"
+              type="email"
+              required
+              class="border-theme mb-3 w-full rounded border p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              style="
+                background: hsl(var(--input));
+                color: hsl(var(--foreground));
+              "
+              placeholder="john@company.com"
+            />
+
+            <label class="mb-2 block text-sm font-medium">Company size</label>
+            <select
+              name="size"
+              class="border-theme mb-6 w-full rounded border p-3 outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              style="
+                background: hsl(var(--input));
+                color: hsl(var(--foreground));
+              "
+            >
+              <option>1 contractor</option>
+              <option>2–10 employees</option>
+              <option>11–50 employees</option>
+              <option>50+ employees</option>
+            </select>
+
+            <button
+              type="submit"
+              class="btn-primary w-full py-3 text-lg font-bold"
+            >
+              Request Invite
+            </button>
+            <p class="muted mt-4 text-center text-xs">
+              We’ll never share your email. You can unsubscribe anytime.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Client-side behavior for the waitlist anchor and form.
+      function toggleWaitlist(show = true) {
+        const el = document.getElementById('waitlist');
+        if (!el) return;
+        el.style.display = show ? 'flex' : 'none';
+        if (show) {
+          document.body.style.overflow = 'hidden'; // Prevent scrolling bg
+        } else {
+          document.body.style.overflow = '';
+        }
+      }
+
+      // Open modal if anchor used
+      document.querySelectorAll('a[href="#waitlist"]').forEach((a) => {
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          toggleWaitlist(true);
+          document
+            .getElementById('waitlistForm')
+            .querySelector('input[name="name"]')
+            .focus();
+        });
+      });
+
+      // Fake submit
+      document
+        .getElementById('waitlistForm')
+        .addEventListener('submit', function (e) {
+          e.preventDefault();
+          const btn = this.querySelector('button[type="submit"]');
+          const originalText = btn.innerText;
+
+          btn.innerText = 'Sending...';
+          btn.disabled = true;
+
+          setTimeout(() => {
+            btn.innerText = 'Request Sent ✓';
+            btn.style.background = 'hsl(var(--status-live))';
+
+            setTimeout(() => {
+              alert(
+                'Thanks — we received your request. You will get an invite email when early access is available.'
+              );
+              toggleWaitlist(false);
+              btn.innerText = originalText;
+              btn.disabled = false;
+              btn.style.background = '';
+              this.reset();
+            }, 800);
+          }, 1000);
+        });
+
+      // Close when clicking backdrop
+      document
+        .querySelectorAll('.modal-backdrop')
+        .forEach((b) =>
+          b.addEventListener('click', () => toggleWaitlist(false))
+        );
+
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') toggleWaitlist(false);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,299 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 215 28% 17%;
+    --foreground: 210 40% 98%;
+    --card: 215 25% 27%;
+    --card-foreground: 210 40% 98%;
+    --popover: 215 25% 27%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 173 58% 39%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217 33% 22%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 22%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 22%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217 33% 22%;
+    --input: 217 33% 22%;
+    --ring: 173 58% 39%;
+    --radius: 0.5rem;
+
+    /* Status Colors - Example Design System */
+    --status-live: 160 84% 39%;
+    --status-live-foreground: 145 80% 10%;
+    --status-dev: 45 93% 47%;
+    --status-dev-foreground: 40 80% 10%;
+    --status-soon: 0 84% 60%;
+    --status-soon-foreground: 0 0% 100%;
+  }
+
+  .dark {
+    --background: 215 28% 17%;
+    --foreground: 210 40% 98%;
+    --card: 215 25% 27%;
+    --card-foreground: 210 40% 98%;
+    --popover: 215 25% 27%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 173 58% 39%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217 33% 22%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 22%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 22%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217 33% 22%;
+    --input: 217 33% 22%;
+    --ring: 173 58% 39%;
+
+    /* Status Badge Variants - Dark Mode */
+    --status-live: 160 84% 39%;
+    --status-live-foreground: 145 80% 10%;
+    --status-dev: 45 93% 47%;
+    --status-dev-foreground: 40 80% 10%;
+    --status-soon: 0 84% 60%;
+    --status-soon-foreground: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/*
+ * Diamond Standard Component Classes
+ * Reusable composition classes for common patterns
+ */
+@layer components {
+  /* Core Card Component - Example Design System */
+  .card {
+    @apply rounded-lg bg-card text-card-foreground;
+    @apply border border-border;
+  }
+
+  /* Badge Components - Example Design System */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2 py-1;
+    @apply text-xs font-semibold;
+  }
+
+  .badge-live {
+    @apply bg-[hsl(var(--status-live))] text-[hsl(var(--status-live-foreground))];
+  }
+
+  .badge-dev {
+    @apply bg-[hsl(var(--status-dev))] text-[hsl(var(--status-dev-foreground))];
+  }
+
+  .badge-soon {
+    @apply bg-[hsl(var(--status-soon))] text-[hsl(var(--status-soon-foreground))];
+  }
+
+  /* Primary Button - Example Design System */
+  .btn-primary {
+    @apply rounded-lg bg-primary text-primary-foreground;
+    @apply px-4 py-2 font-medium transition-opacity;
+    @apply hover:opacity-90;
+    @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[hsl(var(--ring))]/20;
+  }
+
+  /* Muted Text - Example Design System */
+  .muted {
+    @apply text-muted-foreground;
+  }
+
+  .text-primary {
+    @apply text-[hsl(var(--primary))];
+  }
+
+  /* Navigation & Interactive Links */
+  .nav-link {
+    @apply font-medium text-muted-foreground transition-colors hover:text-foreground;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary;
+    @apply focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Primary CTA Button */
+  .btn-primary-cta {
+    @apply btn-primary shadow-lg;
+  }
+
+  /* Hero CTA Button - Large */
+  .btn-hero-primary {
+    @apply bg-primary px-8 py-4 text-lg shadow-xl hover:bg-primary/90 hover:shadow-2xl;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
+    @apply focus-visible:ring-offset-2;
+  }
+
+  /* Hero Secondary Button */
+  .btn-hero-secondary {
+    @apply border-slate-600 bg-slate-700 px-8 py-4 text-lg text-white hover:bg-slate-600;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400;
+    @apply focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900;
+  }
+
+  /* Feature Card */
+  .feature-card {
+    @apply border-slate-600 bg-card p-8 transition hover:bg-slate-700;
+  }
+
+  /* Quiz Card Button */
+  .quiz-option {
+    @apply h-auto rounded-lg border-2 border-slate-700 bg-slate-800 p-4 text-left transition;
+    @apply hover:border-teal-500 hover:bg-slate-700;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400;
+  }
+
+  .quiz-option-center {
+    @apply h-auto rounded-lg border-2 border-slate-700 bg-slate-800 p-4 text-center transition;
+    @apply hover:border-teal-500 hover:bg-slate-700;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400;
+  }
+
+  /* Pricing Card */
+  .pricing-card {
+    @apply border-2 border-slate-700 bg-slate-900 p-8 transition hover:border-teal-500;
+  }
+
+  /* Pricing Card - Featured/Popular */
+  .pricing-card-featured {
+    @apply relative border-2 border-teal-500 bg-gradient-to-br from-teal-900 to-slate-900 p-8;
+  }
+
+  /* Pricing Card - Enterprise */
+  .pricing-card-enterprise {
+    @apply border-2 border-teal-600 bg-slate-900 p-8 transition hover:border-teal-500;
+  }
+
+  /* CTA Button in Pricing Card */
+  .btn-pricing-cta {
+    @apply w-full bg-primary hover:bg-primary/90;
+  }
+
+  /* CTA Button in Featured Pricing Card */
+  .btn-pricing-featured {
+    @apply w-full bg-primary shadow-lg hover:bg-primary/90;
+  }
+
+  /* Billing Toggle Button */
+  .billing-toggle {
+    @apply border-slate-600 bg-slate-800 text-white hover:bg-slate-700;
+  }
+
+  /* Quiz Results Card */
+  .quiz-results {
+    @apply rounded-lg bg-gradient-to-r from-teal-900 to-blue-900 p-6;
+  }
+
+  /* Popular Badge on Pricing Card */
+  .pricing-badge-popular {
+    @apply absolute right-8 top-0 rounded-b-lg bg-teal-500 px-4 py-1 text-sm font-bold text-white;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    @apply relative flex h-[600px] items-center justify-center;
+    @apply bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900;
+  }
+
+  /* Hero Gradient Overlay */
+  .hero-overlay {
+    @apply absolute inset-0 bg-gradient-to-r from-teal-500/10 to-blue-500/10;
+  }
+
+  /* Hero Title with Gradient */
+  .hero-title {
+    @apply mb-6 bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text;
+    @apply text-5xl font-bold text-transparent md:text-6xl;
+  }
+
+  /* Plan Type Tab - Active */
+  .plan-type-active {
+    @apply px-8 py-3 shadow-lg;
+  }
+
+  /* Plan Type Tab - Inactive */
+  .plan-type-inactive {
+    @apply bg-slate-700 px-8 py-3 text-slate-300 hover:bg-slate-600;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400;
+  }
+
+  /* Status Badge - Live/Available */
+  .status-badge-live {
+    @apply border-0 bg-green-600 text-white;
+  }
+
+  /* Status Badge - Coming Soon */
+  .status-badge-soon {
+    @apply border-0 bg-red-600 text-white;
+  }
+
+  /* Status Badge - In Development */
+  .status-badge-dev {
+    @apply border-0 bg-yellow-900 text-yellow-400;
+  }
+
+  /* Status Badge - Coming Soon */
+  .status-badge-soon {
+    @apply border-0 bg-red-900 text-red-400;
+  }
+
+  /* Feature List Item - Included */
+  .feature-included {
+    @apply flex items-start gap-2 text-slate-300;
+  }
+
+  /* Feature List Item - Excluded */
+  .feature-excluded {
+    @apply flex items-start gap-2 text-slate-400;
+  }
+
+  /* Feature Checkmark */
+  .feature-check {
+    @apply font-bold text-teal-400;
+  }
+
+  /* Feature X Mark */
+  .feature-x {
+    @apply font-bold text-slate-600;
+  }
+
+  /* Table Cell - Feature Name */
+  .table-feature-name {
+    @apply px-2 py-3 text-slate-300;
+  }
+
+  /* Table Cell - Available (Green) */
+  .table-cell-available {
+    @apply px-2 py-3 text-center font-semibold text-teal-200;
+  }
+
+  /* Table Cell - Soon (Red) */
+  .table-cell-soon {
+    @apply px-2 py-3 text-center font-semibold text-red-200;
+  }
+
+  /* Table Cell - Premium (Purple) */
+  .table-cell-premium {
+    @apply px-2 py-3 text-center font-semibold text-purple-200;
+  }
+
+  /* Table Cell - Unavailable */
+  .table-cell-unavailable {
+    @apply px-2 py-3 text-center text-slate-600;
+  }
+}
